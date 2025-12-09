@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardData } from '../types';
-import { Mail, Phone, Globe, MapPin, Home } from 'lucide-react';
+import { Mail, Phone, Globe, MapPin, Layers } from 'lucide-react';
 
 interface BusinessCardProps {
   data: CardData;
@@ -9,111 +9,111 @@ interface BusinessCardProps {
 
 const SiteEaseLogo = ({ className = "" }: { className?: string }) => (
   <div className={`flex items-center gap-3 ${className}`}>
-    <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex flex-col items-center justify-center shadow-lg shadow-blue-900/50 relative overflow-hidden border border-blue-400/20">
-      <Home className="text-white w-5 h-5 relative z-10" strokeWidth={2.5} />
-      {/* Decorative lines inside the house icon to match the reference */}
-      <div className="absolute top-[22px] w-2.5 h-0.5 bg-white/90 z-10 rounded-full"></div>
-      <div className="absolute top-[26px] w-2.5 h-0.5 bg-white/90 z-10 rounded-full"></div>
+    <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg flex flex-col items-center justify-center shadow-lg shadow-blue-500/20 relative overflow-hidden border border-white/10">
+      <Layers className="text-white w-5 h-5 relative z-10" />
     </div>
-    <div className="flex items-baseline leading-none">
-      <span className="text-2xl font-bold text-white tracking-tight">SiteEase</span>
-      <span className="text-2xl font-bold text-blue-500 tracking-tight">.ca</span>
+    <div className="flex flex-col justify-center leading-none">
+      <div className="flex items-baseline">
+        <span className="text-2xl font-bold text-white tracking-tight">SiteEase</span>
+        <span className="text-2xl font-bold text-blue-500 tracking-tight">.ca</span>
+      </div>
     </div>
   </div>
 );
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ data, side }) => {
   // Standard US Business Card Ratio: 3.5" x 2"
-  // Using a higher resolution base for print quality (1050px x 600px is 300dpi for 3.5x2)
-  // But keeping the CSS unit consistent with the previous logic for screen display, scaling via print CSS.
   const cardStyle = "w-[525px] h-[300px] relative overflow-hidden shadow-2xl rounded-xl transition-all duration-500 ease-in-out font-inter";
   
-  // Theme Colors inspired by SiteEase (Dark, Purples, Blues, Gradients)
-  const bgGradient = "bg-[#0B1121]";
+  // SiteEase Dark Theme Colors
+  // Deep Slate background with a gradient
+  const bgTheme = "bg-[#0B1121]"; 
   const textPrimary = "text-slate-100";
 
-  // Dot matrix background pattern
+  // Refined Dot Matrix Pattern
   const GridPattern = () => (
-    <div 
-      className="absolute inset-0 z-0 opacity-20 pointer-events-none"
-      style={{
-        backgroundImage: 'radial-gradient(#3b82f6 1px, transparent 1px)',
-        backgroundSize: '24px 24px'
-      }}
-    />
+    <>
+      {/* Base Grid */}
+      <div 
+        className="absolute inset-0 z-0 opacity-[0.15] pointer-events-none"
+        style={{
+          backgroundImage: 'radial-gradient(#60a5fa 1px, transparent 1px)',
+          backgroundSize: '20px 20px'
+        }}
+      />
+      {/* Diagonal Sheen */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none z-0" />
+    </>
   );
 
-  // Helper to render user logo or default SiteEase logo
   const renderLogo = () => {
     if (data.logoUrl) {
-      return <img src={data.logoUrl} alt="Logo" className="h-12 object-contain" />;
+      return <img src={data.logoUrl} alt="Logo" className="h-10 object-contain" />;
     }
     return <SiteEaseLogo />;
   };
 
   if (side === 'front') {
     return (
-      <div className={`${cardStyle} ${bgGradient} flex flex-col justify-between p-8 border border-white/5 group`}>
+      <div className={`${cardStyle} ${bgTheme} flex flex-col justify-between p-8 border border-slate-700/50 relative group`}>
         <GridPattern />
         
-        {/* Abstract Glows */}
-        <div className="absolute top-[-50px] right-[-50px] w-64 h-64 bg-blue-600/10 rounded-full blur-[80px]" />
-        <div className="absolute bottom-[-20px] left-[-20px] w-64 h-64 bg-purple-600/10 rounded-full blur-[80px]" />
+        {/* Glow Effects */}
+        <div className="absolute top-[-20%] right-[-10%] w-[300px] h-[300px] bg-blue-600/20 rounded-full blur-[80px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[250px] h-[250px] bg-indigo-600/10 rounded-full blur-[80px]" />
 
-        {/* Header / Logo Area */}
+        {/* Header */}
         <div className="relative z-10 flex items-center justify-between w-full">
           {renderLogo()}
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 mt-auto mb-2">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-slate-400 mb-2 tracking-tight">
+        <div className="relative z-10 mt-auto">
+          <h1 className="text-4xl font-bold text-white mb-1 tracking-tight drop-shadow-sm">
             {data.fullName || 'Your Name'}
           </h1>
-          <p className={`text-sm font-bold text-blue-400 tracking-widest uppercase flex items-center gap-3`}>
-             <span className="w-6 h-[2px] bg-blue-500 rounded-full"></span>
-            {data.jobTitle || 'Job Title'}
-          </p>
+          <div className="flex items-center gap-3">
+             <div className="h-[2px] w-8 bg-blue-500 rounded-full"></div>
+             <p className="text-sm font-bold text-blue-400 tracking-widest uppercase">
+              {data.jobTitle || 'Job Title'}
+            </p>
+          </div>
+          
           {data.tagline && (
-             <p className="mt-5 text-sm text-slate-400/90 font-light italic tracking-wide">
-               "{data.tagline}"
+             <p className="mt-6 text-sm text-slate-400 font-light italic border-l-2 border-slate-700 pl-3">
+               {data.tagline}
              </p>
           )}
         </div>
-
-        {/* Bottom Accent */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-cyan-500 to-purple-600"></div>
       </div>
     );
   }
 
   // Back of Card
   return (
-    <div className={`${cardStyle} ${bgGradient} flex flex-col p-8 border border-white/5 relative`}>
+    <div className={`${cardStyle} ${bgTheme} flex flex-col p-8 border border-slate-700/50 relative`}>
        <GridPattern />
        
-       {/* Center Glow */}
-       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(30,58,138,0.15)_0%,transparent_70%)]" />
+       {/* Ambient Glow */}
+       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(37,99,235,0.08)_0%,transparent_70%)]" />
 
       <div className="relative z-10 w-full h-full flex flex-col justify-between">
-        <div className="flex justify-between items-start opacity-40">
+        <div className="flex justify-between items-start opacity-30 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-500">
            <div className="scale-75 origin-top-left">
               {renderLogo()}
            </div>
         </div>
 
-        {/* Bottom Area: Contact Info */}
-        <div className="flex flex-row items-end justify-between w-full">
-          
-          {/* Contact Info Grid */}
-          <div className="flex flex-col gap-3.5 w-full">
+        {/* Contact Info Grid */}
+        <div className="grid grid-cols-1 gap-4 w-full relative">
             
             {data.email && (
               <div className="flex items-center gap-4 group">
-                <div className="w-8 h-8 rounded-md bg-slate-800/50 flex items-center justify-center border border-slate-700/50 group-hover:border-blue-500/50 group-hover:bg-blue-500/10 transition-all duration-300 shrink-0">
+                <div className="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 group-hover:bg-blue-900/20 transition-all duration-300 shrink-0 shadow-lg shadow-black/20">
                   <Mail className="w-4 h-4 text-blue-400" />
                 </div>
                 <div className="flex flex-col">
+                  <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Email</span>
                   <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.email}</span>
                 </div>
               </div>
@@ -121,45 +121,46 @@ const BusinessCard: React.FC<BusinessCardProps> = ({ data, side }) => {
 
             {data.phone && (
               <div className="flex items-center gap-4 group">
-                 <div className="w-8 h-8 rounded-md bg-slate-800/50 flex items-center justify-center border border-slate-700/50 group-hover:border-blue-500/50 group-hover:bg-blue-500/10 transition-all duration-300 shrink-0">
+                 <div className="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 group-hover:bg-blue-900/20 transition-all duration-300 shrink-0 shadow-lg shadow-black/20">
                   <Phone className="w-4 h-4 text-blue-400" />
                 </div>
                 <div className="flex flex-col">
+                  <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Phone</span>
                   <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.phone}</span>
                 </div>
               </div>
             )}
 
-            {data.website && (
-              <div className="flex items-center gap-4 group">
-                 <div className="w-8 h-8 rounded-md bg-slate-800/50 flex items-center justify-center border border-slate-700/50 group-hover:border-blue-500/50 group-hover:bg-blue-500/10 transition-all duration-300 shrink-0">
-                  <Globe className="w-4 h-4 text-blue-400" />
+            <div className="flex gap-8">
+              {data.website && (
+                <div className="flex items-center gap-4 group">
+                   <div className="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 group-hover:bg-blue-900/20 transition-all duration-300 shrink-0 shadow-lg shadow-black/20">
+                    <Globe className="w-4 h-4 text-blue-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Website</span>
+                    <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.website}</span>
+                  </div>
                 </div>
-                <div className="flex flex-col">
-                  <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.website}</span>
+              )}
+              
+               {data.address && (
+                <div className="flex items-center gap-4 group">
+                   <div className="w-9 h-9 rounded-lg bg-slate-800/80 flex items-center justify-center border border-slate-700 group-hover:border-blue-500/50 group-hover:bg-blue-900/20 transition-all duration-300 shrink-0 shadow-lg shadow-black/20">
+                    <MapPin className="w-4 h-4 text-blue-400" />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold">Location</span>
+                    <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.address}</span>
+                  </div>
                 </div>
-              </div>
-            )}
-            
-             {data.address && (
-              <div className="flex items-center gap-4 group">
-                 <div className="w-8 h-8 rounded-md bg-slate-800/50 flex items-center justify-center border border-slate-700/50 group-hover:border-blue-500/50 group-hover:bg-blue-500/10 transition-all duration-300 shrink-0">
-                  <MapPin className="w-4 h-4 text-blue-400" />
-                </div>
-                <div className="flex flex-col">
-                  <span className={`${textPrimary} text-sm font-medium tracking-wide`}>{data.address}</span>
-                </div>
-              </div>
-            )}
-
-          </div>
-        </div>
-        
-        {/* Back decorative element */}
-        <div className="absolute bottom-6 right-6 opacity-20">
-          <img src={data.logoUrl || ''} className="w-24 h-24 object-contain grayscale" onError={(e) => e.currentTarget.style.display = 'none'} alt="" />
+              )}
+            </div>
         </div>
       </div>
+      
+      {/* Decorative Corner */}
+      <div className="absolute bottom-0 right-0 w-24 h-24 bg-gradient-to-tl from-blue-600/10 to-transparent rounded-tl-full pointer-events-none"></div>
     </div>
   );
 };
