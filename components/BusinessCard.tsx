@@ -24,9 +24,9 @@ const SiteEaseLogo = ({ className = "" }: { className?: string }) => (
 );
 
 const BusinessCard: React.FC<BusinessCardProps> = ({ data, side }) => {
-  // Standard US Business Card Ratio (3.5" x 2")
-  // Using 525x300px for high-quality display scale
-  const cardStyle = "w-[525px] h-[300px] relative overflow-hidden shadow-2xl rounded-xl transition-all duration-500 ease-in-out font-inter bg-[#0B1120]";
+  // Screen display: 525x300px (1.75 aspect ratio).
+  // Print display: handled by .business-card-print class in index.html (3.5in x 2in).
+  const cardStyle = "w-[525px] h-[300px] business-card-print relative overflow-hidden shadow-2xl rounded-xl transition-all duration-500 ease-in-out font-inter bg-[#0B1120]";
 
   const renderLogo = () => {
     if (data.logoUrl) {
